@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Customer Management</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="video-background">
+        <video autoplay muted loop id="bg-video">
+            <source src="{{ url_for('static', filename='ar2.mp4') }}" type="video/mp4">
+            Your browser does not support the video tag.
+        </video>
+    </div>
+    
+    <div class="container">
+        <h1>Customer Management</h1>
+
+        <h2>Available Customers</h2>
+        <table>
+            <tr>
+                <th>ID</th>
+                <th>Name</th>
+                <th>Email</th>
+                <th>Phone</th>
+            </tr>
+            {% for customer in customers %}
+            <tr>
+                <td>{{ customer[0] }}</td>
+                <td>{{ customer[1] }}</td>
+                <td>{{ customer[2] }}</td>
+                <td>{{ customer[3] }}</td>
+            </tr>
+            {% endfor %}
+        </table>
+
+        <h2>Add New Customer</h2>
+        <form method="POST" action="/add_customer">
+            <label for="customer_name">Name:</label><br>
+            <input type="text" id="customer_name" name="customer_name"><br>
+            <label for="customer_email">Email:</label><br>
+            <input type="email" id="customer_email" name="customer_email"><br>
+            <label for="customer_phone">Phone:</label><br>
+            <input type="text" id="customer_phone" name="customer_phone"><br><br>
+            <input type="submit" value="Submit">
+        </form>
+
+        <br><br>
+        <a href="/tickets">Manage Tickets</a>
+        <a href="/flights">Manage Flights</a>
+    </div>
+</body>
+</html>
