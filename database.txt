@@ -1,0 +1,27 @@
+CREATE TABLE customers (
+    id INT NOT NULL,
+    name VARCHAR(100),
+    phone_number VARCHAR(15),
+    email VARCHAR(100),
+    address VARCHAR(255)
+);
+CREATE TABLE menu (
+    id INT NOT NULL,
+    item_name VARCHAR(100),
+    description TEXT,
+    price DECIMAL(10, 2),
+    category VARCHAR(50),
+);
+CREATE TABLE order_items (
+    id INT NOT NULL,
+    order_id INT,
+    menu_id INT,
+    quantity INT,
+    price DECIMAL(10, 2)
+);
+CREATE TABLE orders (
+    id INT NOT NULL,
+    customer_id INT,
+    total_amount DECIMAL(10, 2),
+    order_status VARCHAR(50)
+);

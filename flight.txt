@@ -1,0 +1,35 @@
+SET LINESIZE 200
+SET PAGESIZE 50
+
+COLUMN customer_id FORMAT 99999
+COLUMN customer_name FORMAT A30
+COLUMN customer_email FORMAT A30
+COLUMN customer_phone FORMAT A15
+
+SELECT * FROM customers;
+
+COLUMN ticket_id FORMAT 99999
+COLUMN passenger_name FORMAT A30
+COLUMN flight_no FORMAT A10
+COLUMN seat_no FORMAT A5
+COLUMN price FORMAT 99999.99
+
+SELECT * FROM tickets;
+
+COLUMN flight_id FORMAT 99999
+COLUMN flight_no FORMAT A10
+COLUMN destination FORMAT A30
+COLUMN departure_time FORMAT A30
+
+SELECT * FROM flights;
+
+
+SET SERVEROUTPUT ON
+SELECT get_flight_details(11) FROM dual;
+EXEC get_all_tickets;
+SELECT get_ticket_price(1) FROM dual;
+
+
+EXEC add_flight('FL123', 'New York', TO_TIMESTAMP('2024-09-20 08:00:00', 'YYYY-MM-DD HH24:MI:SS'));
+EXEC add_ticket('John Doe', 'FL123', '12A', 250.50);
+EXEC add_customer('Alice Smith', 'alice.smith@gmail.com', '1234567890');
