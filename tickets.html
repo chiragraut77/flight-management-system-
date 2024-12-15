@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ticket Management</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="video-background">
+        <video autoplay muted loop id="bg-video">
+            <source src="{{ url_for('static', filename='ar1.mp4') }}" type="video/mp4">
+            Your browser does not support the video tag.
+        </video>
+    </div>
+    
+    <div class="container">
+        <h1>Ticket Management</h1>
+
+        <h2>Available Tickets</h2>
+        <table>
+            <tr>
+                <th>Ticket ID</th>
+                <th>Passenger Name</th>
+                <th>Flight No</th>
+                <th>Seat No</th>
+                <th>Price</th>
+            </tr>
+            {% for ticket in tickets %}
+            <tr>
+                <td>{{ ticket[0] }}</td>
+                <td>{{ ticket[1] }}</td>
+                <td>{{ ticket[2] }}</td>
+                <td>{{ ticket[3] }}</td>
+                <td>{{ ticket[4] }}</td>
+            </tr>
+            {% endfor %}
+        </table>
+
+        <h2>Add New Ticket</h2>
+        <form method="POST" action="/add_ticket">
+            <label for="passenger_name">Passenger Name:</label><br>
+            <input type="text" id="passenger_name" name="passenger_name"><br>
+            <label for="flight_no">Flight No:</label><br>
+            <input type="text" id="flight_no" name="flight_no"><br>
+            <label for="seat_no">Seat No:</label><br>
+            <input type="text" id="seat_no" name="seat_no"><br>
+            <label for="price">Price:</label><br>
+            <input type="number" id="price" name="price"><br><br>
+            <input type="submit" value="Submit">
+        </form>
+
+        <br><br>
+        <a href="/flights">Manage Flights</a>
+        <a href="/customers">Manage Customers</a>
+    </div>
+</body>
+</html>

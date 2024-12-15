@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Airplane Management System</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <style>
+        /* General Styles */
+        body, html {
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+            height: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .container {
+            position: relative;
+            text-align: center;
+            color: white;
+            z-index: 2;
+            background: rgba(0, 0, 0, 0.6);
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.3);
+        }
+
+        h1 {
+            font-size: 36px;
+            margin-bottom: 20px;
+        }
+
+        .buttons {
+            margin-bottom: 20px;
+        }
+
+        .buttons .btn {
+            text-decoration: none;
+            background-color: #007BFF;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 5px;
+            margin: 5px;
+            display: inline-block;
+            transition: background-color 0.3s;
+        }
+
+        .buttons .btn:hover {
+            background-color: #0056b3;
+        }
+
+        .flight-details {
+            margin-top: 30px;
+        }
+
+        .flight-details .input-field {
+            padding: 10px;
+            width: 200px;
+            border-radius: 5px;
+            border: none;
+            margin-right: 10px;
+        }
+
+        .flight-details .btn {
+            background-color: #28a745;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 5px;
+            border: none;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .flight-details .btn:hover {
+            background-color: #218838;
+        }
+
+        #flight-info, #ticket-info {
+            margin-top: 20px;
+            font-size: 18px;
+            color: #ffffff;
+        }
+
+        /* Video Background */
+        .video-background {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+        }
+
+        #bg-video {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            z-index: 1;
+            position: fixed;
+            top: 0;
+            left: 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="video-background">
+        <video autoplay muted loop id="bg-video">
+            <source src="{{ url_for('static', filename='V2.mp4') }}" type="video/mp4">
+            Your browser does not support the video tag.
+        </video>
+    </div>
+
+    <div class="container">
+        <h1>Welcome to Airplane Management System</h1>
+
+        <div class="buttons">
+            <a href="/customers" class="btn">Manage Customers</a>
+            <a href="/flights" class="btn">Manage Flights</a>
+            <a href="/tickets" class="btn">Manage Tickets</a>
+        </div>
+
+        <div class="flight-details">
+            <input type="number" id="flight-id" class="input-field" placeholder="Enter Flight ID">
+            <button id="get-flight-details" class="btn">Get Flight Details</button>
+            <p id="flight-info"></p>
+        </div>
+
+        <!-- New Section to Fetch All Tickets -->
+        <div class="tickets-section">
+            <button id="get-all-tickets" class="btn">Get All Tickets</button>
+            <div id="ticket-info"></div>
+        </div>
+    </div>
+
+    <script>
+        $(document).ready(function(){
+            $('#get-flight-details').click(function(){
+                const flightId = $('#flight-id').val();
+                if(flightId) {
+                    $.get(`/flight_details/${flightId}`, function(data) {
+                        if(data.error) {
+                            $('#flight-info').text(data.error);
+                        } else {
+                            $('#flight-info').text(data.flight_details);
+                        }
+                    });
+                } else {
+                    $('#flight-info').text('Please enter a valid flight ID.');
+                }
+            });
+
+            // Fetch all tickets via AJAX
+            $('#get-all-tickets').click(function(){
+                $.get("/get_all_tickets", function(data) {
+                    if(data.error) {
+                        $('#ticket-info').html(data.error);
+                    } else {
+                        let ticketHtml = '<ul>';
+                        data.tickets.forEach(ticket => {
+                            ticketHtml += `<li>${ticket}</li>`;
+                        });
+                        ticketHtml += '</ul>';
+                        $('#ticket-info').html(ticketHtml);
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>
